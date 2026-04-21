@@ -224,11 +224,8 @@ def build_xml(reviews_with_products):
             ts += "+03:00"
         ET.SubElement(review_el, "review_timestamp").text = ts
 
-        # Контент: текст + теги через ", "
-        content_parts = [rv["text"]] if rv["text"] else []
-        if rv["tags"]:
-            content_parts.append(", ".join(rv["tags"]))
-        ET.SubElement(review_el, "content").text = " | ".join(content_parts) if content_parts else rv["text"]
+        # Контент: только текст отзыва (теги Prom.ua не включаем — GMC отклоняет как boilerplate)
+        ET.SubElement(review_el, "content").text = rv["text"]
 
         ET.SubElement(review_el, "review_url", {
             "type": "group"
