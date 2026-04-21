@@ -47,6 +47,23 @@ HEADERS = {
     "Accept-Language": "uk-UA,uk;q=0.9,ru;q=0.8",
 }
 
+# ── Утилиты ──────────────────────────────────────────────────────────────────
+import re
+
+def strip_emoji(text):
+    """Удаляет эмодзи и спецсимволы из текста отзыва."""
+    emoji_pattern = re.compile(
+        "["
+        "\U0001F300-\U0001FFFF"   # всё non-BMP (эмодзи)
+        "\U00002600-\U000027FF"   # разные символы (звёзды, стрелки и т.д.)
+        "\U0000FE00-\U0000FE0F"   # variation selectors
+        "\U0000200D"              # zero-width joiner
+        "]+",
+        flags=re.UNICODE
+    )
+    return emoji_pattern.sub("", text).strip()
+
+
 # ── Загрузка страниц ──────────────────────────────────────────────────────────
 def fetch_bytes(url):
     """Загружает URL, возвращает bytes. Проверяет редирект пагинатора."""
@@ -131,7 +148,7 @@ def parse_reviews_page(html_bytes, debug=False):
             continue
 
         dt   = date_el.get("datetime", "")
-        text = text_el.get_text(strip=True) if text_el else ""
+        text = strip_emoji(text_el.get_text(strip=True)) if text_el else ""
 
         # Рейтинг: "Рейтинг 5 з 5" → 5
         rating = 5
