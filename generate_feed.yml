@@ -1,0 +1,38 @@
+name: Generate Mirtorg Reviews Feed
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # каждый день в 05:00 по Киеву (02:00 UTC)
+  workflow_dispatch:        # ручной запуск из GitHub UI
+
+jobs:
+  generate-feed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create output directory
+        run: mkdir -p ./public
+
+      - name: Generate reviews feed
+        run: python3 mirtorg_reviews_feed.py --output ./public/mirtorg_reviews_feed.xml
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          force_orphan: false
+          keep_files: false
+          commit_message: 'Auto-update reviews feed'
