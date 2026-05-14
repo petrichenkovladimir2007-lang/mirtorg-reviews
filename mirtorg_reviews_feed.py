@@ -241,8 +241,8 @@ def build_xml(reviews_with_products):
             ts += "+03:00"
         ET.SubElement(review_el, "review_timestamp").text = ts
 
-        # Контент: только текст отзыва (теги Prom.ua не включаем — GMC отклоняет как boilerplate)
-        ET.SubElement(review_el, "content").text = rv["text"]
+        # Контент: текст отзыва, или теги Prom.ua если текст пустой
+        ET.SubElement(review_el, "content").text = rv["text"] or ", ".join(rv["tags"])
 
         ET.SubElement(review_el, "review_url", {
             "type": "group"
@@ -341,23 +341,28 @@ def main():
 
     print(f"\nВсего отзывов собрано: {len(all_reviews)}")
 
-    # 3. Фильтр: только отзывы с текстом (без дедупликации по автору)
-    unique_with_text = {}
+    # 3. Дедупликация по datetime — защита от задвоения при пагинации.
+    # Отзывы без текста включаем: в content подставляются теги Prom.ua.
+    # Отзывы без текста И без тегов — пропускаем (content был бы пустым).
+    unique_reviews = {}
+    skipped_empty = 0
     for r in all_reviews:
-        if r["text"]:
-            # Ключ: author + datetime — защита от дублей одного и того же отзыва
-            # (один отзыв может появиться на странице дважды при пагинации)
-            key = r["datetime"]
-            if key not in unique_with_text:
-                unique_with_text[key] = r
+        content = r["text"] or ", ".join(r["tags"])
+        if not content:
+            skipped_empty += 1
+            continue
+        key = r["datetime"]
+        if key not in unique_reviews:
+            unique_reviews[key] = r
 
-    print(f"Отзывов с текстом:  {len(unique_with_text)}")
+    print(f"Отзывов для фида:         {len(unique_reviews)}")
+    print(f"Пропущено (нет контента): {skipped_empty}")
 
     # 4. Матчинг с товарным фидом
     matched = []
     unmatched_count = 0
 
-    for rv in unique_with_text.values():
+    for rv in unique_reviews.values():
         for prod in rv["products"]:
             prom_id = str(prod["id"])
             if prom_id in feed_products:
