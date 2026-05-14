@@ -341,15 +341,17 @@ def main():
 
     print(f"\nВсего отзывов собрано: {len(all_reviews)}")
 
-    # 3. Фильтр: только уникальные с текстом (ключ author+datetime)
+    # 3. Фильтр: только отзывы с текстом (без дедупликации по автору)
     unique_with_text = {}
     for r in all_reviews:
         if r["text"]:
-            key = (r["author"], r["datetime"])
+            # Ключ: author + datetime — защита от дублей одного и того же отзыва
+            # (один отзыв может появиться на странице дважды при пагинации)
+            key = r["datetime"]
             if key not in unique_with_text:
                 unique_with_text[key] = r
 
-    print(f"Уникальных с текстом:  {len(unique_with_text)}")
+    print(f"Отзывов с текстом:  {len(unique_with_text)}")
 
     # 4. Матчинг с товарным фидом
     matched = []
