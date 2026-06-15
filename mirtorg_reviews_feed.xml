@@ -10,6 +10,58 @@
   </publisher>
   <reviews>
     <review>
+      <review_id>MRFD347A</review_id>
+      <reviewer>
+        <name>Інна К.</name>
+      </reviewer>
+      <review_timestamp>2026-06-14T20:27:21+03:00</review_timestamp>
+      <content>Чудовий магазин і привітний продавець. Дякую за якісний товар і швидкість!  Замовляю не перший раз-завжди задоволена. Рекомендую!</content>
+      <review_url type="group">https://mirtorg7km.com.ua/ua/testimonials</review_url>
+      <ratings>
+        <overall min="1" max="5">5</overall>
+      </ratings>
+      <products>
+        <product>
+          <product_ids>
+            <mpns>
+              <mpn>981772915</mpn>
+            </mpns>
+            <brands>
+              <brand>mirtorg7km.com.ua</brand>
+            </brands>
+          </product_ids>
+          <product_name>Вешалки плечики тремпеля с прищепками для брюк и юбок металлические 28 см (никель+силикон)</product_name>
+          <product_url>https://mirtorg7km.com.ua/p981772915-veshalki-plechiki-trempelya.html?source=merchant_center</product_url>
+        </product>
+      </products>
+    </review>
+    <review>
+      <review_id>MRD7BD22</review_id>
+      <reviewer>
+        <name>Інна К.</name>
+      </reviewer>
+      <review_timestamp>2026-06-14T20:27:21+03:00</review_timestamp>
+      <content>Чудовий магазин і привітний продавець. Дякую за якісний товар і швидкість!  Замовляю не перший раз-завжди задоволена. Рекомендую!</content>
+      <review_url type="group">https://mirtorg7km.com.ua/ua/testimonials</review_url>
+      <ratings>
+        <overall min="1" max="5">5</overall>
+      </ratings>
+      <products>
+        <product>
+          <product_ids>
+            <mpns>
+              <mpn>986849892</mpn>
+            </mpns>
+            <brands>
+              <brand>mirtorg7km.com.ua</brand>
+            </brands>
+          </product_ids>
+          <product_name>Вешалки плечики тремпеля для брюк и юбок металлические 35 см (никель+силикон)</product_name>
+          <product_url>https://mirtorg7km.com.ua/p986849892-veshalki-plechiki-trempelya.html?source=merchant_center</product_url>
+        </product>
+      </products>
+    </review>
+    <review>
       <review_id>MRB89670</review_id>
       <reviewer>
         <name>Анна З.</name>
